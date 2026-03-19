@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Eid Mubarak 🌙</title>
+
+<style>
+body {
+  margin: 0;
+  background: radial-gradient(circle, #020111, #000);
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  color: white;
+  text-align: center;
+}
+
+/* 🌌 Stars */
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  animation: twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle {
+  from { opacity: 0.2; }
+  to { opacity: 1; }
+}
+
+/* 🌙 Moon */
+.moon {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  width: 120px;
+  height: 120px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 60px #fff;
+  transform: translateX(-50%);
+}
+
+/* 🕌 Mosque */
+.mosque {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 200px;
+  background: black;
+  border-top-left-radius: 50% 100%;
+  border-top-right-radius: 50% 100%;
+}
+
+/* ✨ Text */
+#text {
+  position: absolute;
+  top: 55%;
+  width: 100%;
+  font-size: 2.5em;
+  opacity: 0;
+  transform: scale(0.5);
+  animation: appear 3s ease forwards;
+  animation-delay: 2s;
+}
+
+@keyframes appear {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 💫 Floating sparkles */
+.sparkle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  animation: floatUp 5s linear infinite;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-600px); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="moon"></div>
+<div class="mosque"></div>
+<h1 id="text">Eid Mubarak 🌙</h1>
+
+<script>
+/* ⭐ Generate stars */
+for (let i = 0; i < 100; i++) {
+  let star = document.createElement("div");
+  star.className = "star";
+  star.style.top = Math.random() * window.innerHeight + "px";
+  star.style.left = Math.random() * window.innerWidth + "px";
+  document.body.appendChild(star);
+}
+
+/* 💫 Sparkles */
+setInterval(() => {
+  let s = document.createElement("div");
+  s.className = "sparkle";
+  s.style.left = Math.random() * window.innerWidth + "px";
+  s.style.top = window.innerHeight + "px";
+  document.body.appendChild(s);
+
+  setTimeout(() => s.remove(), 5000);
+}, 300);
+
+/* 🔤 Name from link */
+const params = new URLSearchParams(window.location.search);
+const name = params.get("name");
+
+if (name) {
+  document.getElementById("text").innerText =
+    `Eid Mubarak, ${name} 🌙`;
+}
+</script>
+
+</body>
+</html>
