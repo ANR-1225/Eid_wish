@@ -7,9 +7,9 @@
 <style>
 body {
   margin: 0;
-  background: radial-gradient(circle, #020111, #000);
+  background: radial-gradient(circle at bottom, #020111, #000);
   overflow: hidden;
-  font-family: Arial, sans-serif;
+  font-family: Arial;
   color: white;
   text-align: center;
 }
@@ -28,28 +28,37 @@ body {
   to { opacity: 1; }
 }
 
-/* 🌙 Moon */
+/* 🌙 Crescent Moon */
 .moon {
   position: absolute;
   top: 15%;
   left: 50%;
   width: 120px;
   height: 120px;
-  background: #fff;
+  background: white;
   border-radius: 50%;
-  box-shadow: 0 0 60px #fff;
+  box-shadow: 0 0 60px white;
   transform: translateX(-50%);
 }
 
-/* 🕌 Mosque */
+.moon::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 30px;
+  width: 120px;
+  height: 120px;
+  background: black;
+  border-radius: 50%;
+}
+
+/* 🕌 Mosque silhouette */
 .mosque {
   position: absolute;
   bottom: 0;
   width: 100%;
   height: 200px;
-  background: black;
-  border-top-left-radius: 50% 100%;
-  border-top-right-radius: 50% 100%;
+  background: linear-gradient(to top, black, transparent);
 }
 
 /* ✨ Text */
@@ -57,11 +66,12 @@ body {
   position: absolute;
   top: 55%;
   width: 100%;
-  font-size: 2.5em;
+  font-size: 2.8em;
   opacity: 0;
   transform: scale(0.5);
   animation: appear 3s ease forwards;
   animation-delay: 2s;
+  text-shadow: 0 0 20px #00c3ff;
 }
 
 @keyframes appear {
@@ -71,7 +81,7 @@ body {
   }
 }
 
-/* 💫 Floating sparkles */
+/* 💫 Sparkles */
 .sparkle {
   position: absolute;
   width: 4px;
@@ -85,6 +95,23 @@ body {
   from { transform: translateY(0); opacity: 1; }
   to { transform: translateY(-600px); opacity: 0; }
 }
+
+/* 🎆 Fireworks */
+.firework {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: white;
+  border-radius: 50%;
+  animation: explode 1s ease-out forwards;
+}
+
+@keyframes explode {
+  to {
+    transform: translate(var(--x), var(--y));
+    opacity: 0;
+  }
+}
 </style>
 </head>
 
@@ -94,9 +121,12 @@ body {
 <div class="mosque"></div>
 <h1 id="text">Eid Mubarak 🌙</h1>
 
+<!-- 🎵 optional sound -->
+<audio id="sound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
+
 <script>
-/* ⭐ Generate stars */
-for (let i = 0; i < 100; i++) {
+/* ⭐ Stars */
+for (let i = 0; i < 120; i++) {
   let star = document.createElement("div");
   star.className = "star";
   star.style.top = Math.random() * window.innerHeight + "px";
@@ -111,11 +141,31 @@ setInterval(() => {
   s.style.left = Math.random() * window.innerWidth + "px";
   s.style.top = window.innerHeight + "px";
   document.body.appendChild(s);
-
   setTimeout(() => s.remove(), 5000);
-}, 300);
+}, 200);
 
-/* 🔤 Name from link */
+/* 🎆 Firework on click */
+document.addEventListener("click", (e) => {
+  document.getElementById("sound").play();
+
+  for (let i = 0; i < 30; i++) {
+    let f = document.createElement("div");
+    f.className = "firework";
+
+    let x = (Math.random() - 0.5) * 300 + "px";
+    let y = (Math.random() - 0.5) * 300 + "px";
+
+    f.style.left = e.clientX + "px";
+    f.style.top = e.clientY + "px";
+    f.style.setProperty('--x', x);
+    f.style.setProperty('--y', y);
+
+    document.body.appendChild(f);
+    setTimeout(() => f.remove(), 1000);
+  }
+});
+
+/* 🔤 Name from URL */
 const params = new URLSearchParams(window.location.search);
 const name = params.get("name");
 
