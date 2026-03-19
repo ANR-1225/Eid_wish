@@ -4,190 +4,130 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Eid Mubarak</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Raleway:wght@300;400&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --gold:#D4AF37;--gold2:#F5D76E;--gold3:#8B6914;
-  --teal:#0a3d4a;--teal2:#0d5c6e;
-  --night:#030d12;--deep:#04161d;--cream:#FDF8EE;
+  --gold:#D4AF37;--gold2:#F5D76E;
+  --night:#030c10;--cream:#FDF8EE;
 }
-html{scroll-behavior:smooth}
-body{background:var(--night);color:var(--cream);font-family:'Raleway',sans-serif;overflow-x:hidden;cursor:none}
+body{background:var(--night);color:var(--cream);font-family:'Raleway',sans-serif;overflow-x:hidden;min-height:100vh}
 
-/* CURSOR */
-#cursor{position:fixed;width:18px;height:18px;border:1.5px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;mix-blend-mode:screen}
-#cdot{position:fixed;width:5px;height:5px;background:var(--gold2);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none}
+#sky{z-index:0}
+#ambient{z-index:1}
 
-/* CANVASES */
-#sky,#pts,#fx{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none}
-#sky{z-index:0}#pts{z-index:1}#fx{z-index:20}
-
-/* AURORA */
-.aurora{position:fixed;top:0;left:0;width:100%;height:65%;z-index:0;pointer-events:none;
-  background:radial-gradient(ellipse 80% 40% at 20% 10%,rgba(0,180,160,.07) 0%,transparent 60%),
-             radial-gradient(ellipse 60% 30% at 80% 5%,rgba(80,40,180,.06) 0%,transparent 60%),
-             radial-gradient(ellipse 50% 25% at 50% 0%,rgba(212,175,55,.05) 0%,transparent 50%);
-  animation:auShift 14s ease-in-out infinite alternate}
-@keyframes auShift{0%{opacity:.6;transform:scaleX(1)}100%{opacity:1;transform:scaleX(1.15)}}
-
-/* PAGE */
-#page{position:relative;z-index:5;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding-bottom:60px}
-
-/* SCENE */
-.scene{width:100%;max-width:920px;display:flex;flex-direction:column;align-items:center;padding-top:44px;position:relative}
-
-/* STAR FIELD */
-.sf{position:absolute;top:0;left:50%;transform:translateX(-50%);width:640px;height:200px;pointer-events:none;z-index:1}
-.sf svg{width:100%;height:100%}
+#page{position:relative;z-index:5;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:44px 20px 60px}
 
 /* MOON */
-.moon-w{position:relative;width:120px;height:120px;margin-bottom:4px;animation:mf 6s ease-in-out infinite;filter:drop-shadow(0 0 30px rgba(212,175,55,.55)) drop-shadow(0 0 80px rgba(212,175,55,.2));z-index:2}
-@keyframes mf{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-14px) rotate(3deg)}}
+.moon-w{width:105px;height:105px;animation:mf 7s ease-in-out infinite;filter:drop-shadow(0 0 22px rgba(212,175,55,.5)) drop-shadow(0 0 55px rgba(212,175,55,.18));margin-bottom:2px}
+@keyframes mf{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-12px) rotate(3deg)}}
 .moon-w svg{width:100%;height:100%}
 
 /* TITLES */
-.main-title{font-family:'Cinzel Decorative',serif;font-size:clamp(2rem,6.5vw,4.8rem);font-weight:900;color:var(--gold2);letter-spacing:.07em;text-align:center;line-height:1.15;text-shadow:0 0 40px rgba(212,175,55,.7),0 0 90px rgba(212,175,55,.25),0 4px 8px rgba(0,0,0,.6);animation:tR 1.6s cubic-bezier(.16,1,.3,1) both;margin-top:6px;z-index:2;position:relative}
-@keyframes tR{from{opacity:0;transform:translateY(30px) scale(.95);letter-spacing:.25em}to{opacity:1;transform:none;letter-spacing:.07em}}
-.sub-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(.95rem,2.4vw,1.35rem);font-weight:300;color:rgba(253,248,238,.58);letter-spacing:.2em;margin-top:10px;animation:fU 1.6s .4s both;z-index:2;position:relative}
-.orn{display:flex;align-items:center;gap:14px;margin:18px 0;animation:fU 1.6s .6s both;z-index:2;position:relative}
-.orn-l{width:90px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.orn-d{width:10px;height:10px;background:var(--gold);transform:rotate(45deg);box-shadow:0 0 10px rgba(212,175,55,.8)}
-@keyframes fU{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.main-title{font-family:'Cinzel Decorative',serif;font-size:clamp(2rem,6vw,4.4rem);font-weight:900;color:var(--gold2);letter-spacing:.07em;text-align:center;text-shadow:0 0 35px rgba(212,175,55,.6),0 0 70px rgba(212,175,55,.2);animation:tR 1.5s cubic-bezier(.16,1,.3,1) both;margin-top:6px}
+@keyframes tR{from{opacity:0;transform:translateY(28px);letter-spacing:.22em}to{opacity:1;transform:none;letter-spacing:.07em}}
+.sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(.9rem,2.2vw,1.25rem);color:rgba(253,248,238,.52);letter-spacing:.2em;margin-top:9px;animation:fU 1.5s .4s both}
+.orn{display:flex;align-items:center;gap:12px;margin:16px 0;animation:fU 1.5s .55s both}
+.ol{width:80px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.od{width:8px;height:8px;background:var(--gold);transform:rotate(45deg);box-shadow:0 0 8px rgba(212,175,55,.7)}
+@keyframes fU{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 
 /* MOSQUE */
-.mosque-w{width:min(700px,97vw);margin-top:-8px;animation:fU 2s .3s both;filter:drop-shadow(0 -6px 30px rgba(212,175,55,.14)) drop-shadow(0 20px 50px rgba(0,0,0,.65));z-index:2;position:relative}
+.mosque-w{width:min(660px,95vw);margin-top:-6px;animation:fU 1.8s .3s both;filter:drop-shadow(0 -4px 24px rgba(212,175,55,.1)) drop-shadow(0 16px 40px rgba(0,0,0,.5))}
 .mosque-w svg{width:100%;display:block}
 
 /* WISH CARD */
-.wcard{width:min(650px,93vw);background:linear-gradient(135deg,rgba(13,92,110,.28),rgba(3,13,18,.65));border:1px solid rgba(212,175,55,.22);border-radius:24px;padding:40px 38px;text-align:center;backdrop-filter:blur(14px);position:relative;overflow:hidden;margin-top:30px;box-shadow:0 20px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(212,175,55,.12);animation:fU 1.6s .8s both}
-.wcard::before{content:'';position:absolute;top:-70px;left:-70px;width:200px;height:200px;background:radial-gradient(circle,rgba(212,175,55,.1),transparent 70%);border-radius:50%}
-.wcard::after{content:'';position:absolute;bottom:-70px;right:-70px;width:200px;height:200px;background:radial-gradient(circle,rgba(10,120,140,.14),transparent 70%);border-radius:50%}
-.wlabel{font-family:'Cinzel Decorative',serif;font-size:.62rem;letter-spacing:.32em;color:var(--gold);margin-bottom:18px;position:relative;z-index:1}
-#wish{font-family:'Cormorant Garamond',serif;font-size:clamp(1.05rem,2.2vw,1.28rem);font-weight:400;color:var(--cream);line-height:1.95;min-height:95px;transition:opacity .45s,transform .45s;position:relative;z-index:1}
-#wish.fo{opacity:0;transform:translateY(8px)}
+.wcard{width:min(600px,92vw);background:linear-gradient(135deg,rgba(13,80,96,.22),rgba(3,12,18,.55));border:1px solid rgba(212,175,55,.18);border-radius:22px;padding:36px 32px;text-align:center;backdrop-filter:blur(10px);position:relative;overflow:hidden;margin-top:28px;box-shadow:0 16px 50px rgba(0,0,0,.4),inset 0 1px 0 rgba(212,175,55,.1);animation:fU 1.5s .75s both}
+.wcard::before{content:'';position:absolute;top:-50px;left:-50px;width:160px;height:160px;background:radial-gradient(circle,rgba(212,175,55,.08),transparent 70%);border-radius:50%;pointer-events:none}
+.wlabel{font-family:'Cinzel Decorative',serif;font-size:.58rem;letter-spacing:.32em;color:var(--gold);margin-bottom:16px;position:relative;z-index:1}
+#wish{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1rem,2.1vw,1.22rem);font-weight:300;color:var(--cream);line-height:2;min-height:88px;transition:opacity .45s,transform .45s;position:relative;z-index:1}
+#wish.fo{opacity:0;transform:translateY(7px)}
 
 /* BUTTONS */
-.brow{display:flex;gap:11px;flex-wrap:wrap;justify-content:center;margin-top:28px;position:relative;z-index:1}
-.btn{position:relative;padding:13px 24px;border-radius:50px;border:none;font-family:'Raleway',sans-serif;font-size:.8rem;font-weight:400;letter-spacing:.13em;cursor:none;overflow:hidden;transition:transform .2s,box-shadow .2s;outline:none}
-.btn::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.12);transform:translateX(-110%) skewX(-15deg);transition:transform .4s}
-.btn:hover::before{transform:translateX(130%) skewX(-15deg)}
-.btn:hover{transform:translateY(-3px)}
-.btn:active{transform:scale(.93)}
-.bg{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1a0e00;box-shadow:0 4px 20px rgba(212,175,55,.3)}
-.bg:hover{box-shadow:0 8px 30px rgba(212,175,55,.55)}
-.bt{background:linear-gradient(135deg,rgba(13,110,130,.7),rgba(10,61,74,.8));color:var(--cream);border:1px solid rgba(212,175,55,.28)}
-.bt:hover{box-shadow:0 8px 28px rgba(10,100,120,.4)}
-.bo{background:transparent;border:1px solid rgba(212,175,55,.38);color:var(--gold2)}
-.bo:hover{background:rgba(212,175,55,.07);box-shadow:0 6px 20px rgba(212,175,55,.18)}
+.brow{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:26px;position:relative;z-index:1}
+.btn{padding:11px 22px;border-radius:50px;border:none;font-family:'Raleway',sans-serif;font-size:.78rem;font-weight:400;letter-spacing:.12em;cursor:pointer;transition:transform .2s,box-shadow .2s,opacity .2s;outline:none}
+.btn:hover{transform:translateY(-2px);opacity:.92}
+.btn:active{transform:scale(.95)}
+.bg{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1a0e00;box-shadow:0 3px 16px rgba(212,175,55,.28)}
+.bg:hover{box-shadow:0 6px 24px rgba(212,175,55,.45)}
+.bt{background:rgba(13,92,110,.45);color:var(--cream);border:1px solid rgba(212,175,55,.22)}
+.bt:hover{background:rgba(13,92,110,.6)}
+.bo{background:transparent;border:1px solid rgba(212,175,55,.32);color:var(--gold2)}
+.bo:hover{background:rgba(212,175,55,.06)}
 
 /* MESSAGE */
-.msec{width:min(650px,93vw);margin-top:42px;animation:fU 1.6s 1s both}
-.msec h3{font-family:'Cinzel Decorative',serif;font-size:.72rem;letter-spacing:.24em;color:var(--gold);text-align:center;margin-bottom:22px}
-.mform{display:flex;flex-direction:column;gap:14px}
-.mform input,.mform textarea{background:rgba(253,248,238,.05);border:1px solid rgba(212,175,55,.22);border-radius:14px;padding:14px 20px;color:var(--cream);font-family:'Cormorant Garamond',serif;font-size:1.05rem;outline:none;transition:border-color .25s,background .25s,box-shadow .25s;resize:none}
-.mform input::placeholder,.mform textarea::placeholder{color:rgba(253,248,238,.27);font-style:italic}
-.mform input:focus,.mform textarea:focus{border-color:rgba(212,175,55,.6);background:rgba(212,175,55,.06);box-shadow:0 0 20px rgba(212,175,55,.1)}
-.mform textarea{min-height:110px}
-.fnote{font-size:.73rem;color:rgba(253,248,238,.28);text-align:center;letter-spacing:.05em;line-height:1.7}
-#fstat{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.97rem;color:var(--gold2);min-height:22px}
+.msec{width:min(600px,92vw);margin-top:38px;animation:fU 1.5s .95s both}
+.msec h3{font-family:'Cinzel Decorative',serif;font-size:.68rem;letter-spacing:.24em;color:var(--gold);text-align:center;margin-bottom:20px}
+.mform{display:flex;flex-direction:column;gap:12px}
+.mform input,.mform textarea{background:rgba(253,248,238,.04);border:1px solid rgba(212,175,55,.18);border-radius:12px;padding:13px 18px;color:var(--cream);font-family:'Cormorant Garamond',serif;font-size:1rem;outline:none;transition:border-color .2s,background .2s;resize:none}
+.mform input::placeholder,.mform textarea::placeholder{color:rgba(253,248,238,.25);font-style:italic}
+.mform input:focus,.mform textarea:focus{border-color:rgba(212,175,55,.5);background:rgba(212,175,55,.05)}
+.mform textarea{min-height:100px}
+.fnote{font-size:.7rem;color:rgba(253,248,238,.25);text-align:center;letter-spacing:.04em;line-height:1.7}
+#fstat{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:var(--gold2);min-height:20px}
 
-/* FOOTER */
-footer{position:relative;z-index:5;text-align:center;padding:32px 20px 44px;color:rgba(253,248,238,.22);font-size:.77rem;letter-spacing:.1em}
+footer{position:relative;z-index:5;text-align:center;padding:28px 20px 40px;color:rgba(253,248,238,.2);font-size:.75rem;letter-spacing:.1em}
 footer span{color:var(--gold)}
 
-/* TOAST */
-#toast{position:fixed;bottom:36px;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(10,50,62,.97);border:1px solid var(--gold);color:var(--cream);padding:12px 32px;border-radius:50px;transition:transform .4s cubic-bezier(.16,1,.3,1),opacity .4s;opacity:0;z-index:9998;white-space:nowrap;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+#toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);background:rgba(8,44,56,.96);border:1px solid var(--gold);color:var(--cream);padding:11px 28px;border-radius:50px;transition:transform .38s cubic-bezier(.16,1,.3,1),opacity .38s;opacity:0;z-index:999;white-space:nowrap;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.98rem}
 #toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 
-@media(max-width:520px){.wcard{padding:26px 16px}.brow{gap:8px}.btn{padding:10px 16px;font-size:.74rem}}
+@media(max-width:480px){.wcard{padding:24px 16px}.brow{gap:8px}.btn{padding:10px 16px;font-size:.72rem}}
 </style>
 </head>
 <body>
+
 <canvas id="sky"></canvas>
-<canvas id="pts"></canvas>
-<canvas id="fx"></canvas>
-<div class="aurora"></div>
-<div id="cursor"></div>
-<div id="cdot"></div>
+<canvas id="ambient"></canvas>
 
 <div id="page">
-<div class="scene">
 
-  <!-- Decorative star field -->
-  <div class="sf">
-    <svg viewBox="0 0 640 200" xmlns="http://www.w3.org/2000/svg">
-      <defs><style>
-        .ts{animation:tw 2.5s ease-in-out infinite alternate}
-        .ts:nth-child(2n){animation-delay:.6s;animation-duration:3.2s}
-        .ts:nth-child(3n){animation-delay:1.1s;animation-duration:2s}
-        @keyframes tw{from{opacity:.2}to{opacity:1}}
-      </style></defs>
-      <g fill="#FFE08A">
-        <circle class="ts" cx="35" cy="25" r="1.8"/>
-        <circle class="ts" cx="90" cy="12" r="1.4"/>
-        <circle class="ts" cx="160" cy="35" r="1.6"/>
-        <circle class="ts" cx="230" cy="18" r="1.2"/>
-        <circle class="ts" cx="295" cy="42" r="1.5"/>
-        <circle class="ts" cx="370" cy="10" r="1.7"/>
-        <circle class="ts" cx="430" cy="30" r="1.3"/>
-        <circle class="ts" cx="500" cy="20" r="1.6"/>
-        <circle class="ts" cx="570" cy="38" r="1.4"/>
-        <circle class="ts" cx="620" cy="15" r="1.2"/>
-        <circle class="ts" cx="70" cy="65" r="1.1"/>
-        <circle class="ts" cx="195" cy="72" r="1.3"/>
-        <circle class="ts" cx="340" cy="60" r="1"/>
-        <circle class="ts" cx="470" cy="68" r="1.2"/>
-        <circle class="ts" cx="590" cy="55" r="1"/>
-        <!-- 5-pointed stars -->
-        <g class="ts" transform="translate(130,16) scale(.7)"><polygon points="0,-8 1.9,-2.5 8,-2.5 3.1,1.5 4.9,7.5 0,4 -4.9,7.5 -3.1,1.5 -8,-2.5 -1.9,-2.5"/></g>
-        <g class="ts" transform="translate(400,22) scale(.65)"><polygon points="0,-8 1.9,-2.5 8,-2.5 3.1,1.5 4.9,7.5 0,4 -4.9,7.5 -3.1,1.5 -8,-2.5 -1.9,-2.5"/></g>
-        <g class="ts" transform="translate(545,14) scale(.6)"><polygon points="0,-8 1.9,-2.5 8,-2.5 3.1,1.5 4.9,7.5 0,4 -4.9,7.5 -3.1,1.5 -8,-2.5 -1.9,-2.5"/></g>
-      </g>
-    </svg>
-  </div>
-
-  <!-- CRESCENT MOON -->
+  <!-- CRESCENT MOON — black replaced with transparent -->
   <div class="moon-w">
-    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 110 110" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <radialGradient id="mg" cx="38%" cy="32%" r="65%">
+        <radialGradient id="mg" cx="36%" cy="30%" r="65%">
           <stop offset="0%" stop-color="#FFFDE0"/>
-          <stop offset="35%" stop-color="#F5D76E"/>
-          <stop offset="100%" stop-color="#B8860B"/>
+          <stop offset="38%" stop-color="#F5D76E"/>
+          <stop offset="100%" stop-color="#A07010"/>
         </radialGradient>
-        <filter id="mglow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        <clipPath id="cc"><circle cx="55" cy="60" r="35"/></clipPath>
+        <filter id="mglow">
+          <feGaussianBlur stdDeviation="4" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <!-- Crescent mask: full circle minus offset circle -->
+        <mask id="cm">
+          <circle cx="50" cy="55" r="33" fill="white"/>
+          <circle cx="65" cy="50" r="26" fill="black"/>
+        </mask>
       </defs>
-      <!-- halo rings -->
-      <circle cx="60" cy="60" r="50" fill="rgba(212,175,55,.05)"/>
-      <circle cx="60" cy="60" r="42" fill="rgba(212,175,55,.06)"/>
-      <circle cx="60" cy="60" r="34" fill="rgba(212,175,55,.07)"/>
-      <!-- crescent -->
-      <g filter="url(#mglow)">
-        <circle cx="55" cy="60" r="35" fill="url(#mg)"/>
-        <circle cx="70" cy="55" r="28" fill="#030d12" clip-path="url(#cc)"/>
+      <!-- Soft glow halos -->
+      <circle cx="55" cy="55" r="44" fill="rgba(212,175,55,.05)"/>
+      <circle cx="55" cy="55" r="36" fill="rgba(212,175,55,.06)"/>
+      <!-- Crescent shape (mask cuts out inner circle = transparent) -->
+      <circle cx="50" cy="55" r="33" fill="url(#mg)" mask="url(#cm)" filter="url(#mglow)"/>
+      <!-- Subtle surface craters inside the crescent -->
+      <g mask="url(#cm)" opacity=".5">
+        <circle cx="38" cy="63" r="3" fill="rgba(0,0,0,.12)"/>
+        <circle cx="44" cy="74" r="2" fill="rgba(0,0,0,.09)"/>
       </g>
-      <!-- surface detail -->
-      <circle cx="40" cy="67" r="3.5" fill="rgba(0,0,0,.09)" clip-path="url(#cc)"/>
-      <circle cx="47" cy="79" r="2.2" fill="rgba(0,0,0,.07)" clip-path="url(#cc)"/>
-      <!-- star beside moon -->
-      <g transform="translate(89,30)" fill="#FFE08A">
-        <polygon points="0,-8 1.9,-2.5 8,-2.5 3.1,1.5 4.9,7.5 0,4 -4.9,7.5 -3.1,1.5 -8,-2.5 -1.9,-2.5" transform="scale(.75)"/>
+      <!-- Star -->
+      <g transform="translate(82,28)" fill="#FFE08A" opacity=".9">
+        <polygon points="0,-7 1.6,-2.2 7,-2.2 2.8,1.3 4.4,6.8 0,3.6 -4.4,6.8 -2.8,1.3 -7,-2.2 -1.6,-2.2" transform="scale(.72)"/>
       </g>
-      <circle cx="100" cy="18" r="2" fill="#FFE08A" opacity=".7"/>
     </svg>
   </div>
 
   <h1 class="main-title">Eid Mubarak</h1>
-  <p class="sub-title">May peace, joy &amp; blessings be upon you</p>
-  <div class="orn"><div class="orn-l"></div><div class="orn-d"></div><div class="orn-l"></div></div>
+  <p class="sub">May peace, joy &amp; blessings be upon you</p>
+  <div class="orn"><div class="ol"></div><div class="od"></div><div class="ol"></div></div>
 
-  <!-- MOSQUE SVG -->
+  <!-- MOSQUE -->
   <div class="mosque-w">
-    <svg viewBox="0 0 700 290" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+    <svg viewBox="0 0 660 272" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
       <defs>
-        <linearGradient id="mG" x1="0%" y1="0%" x2="0%" y2="100%">
+        <linearGradient id="bG" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" stop-color="#1a6d82"/><stop offset="55%" stop-color="#0d4e5e"/><stop offset="100%" stop-color="#083340"/>
         </linearGradient>
         <linearGradient id="dG" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -196,439 +136,311 @@ footer span{color:var(--gold)}
         <linearGradient id="gA" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" stop-color="#F5D76E"/><stop offset="100%" stop-color="#B8860B"/>
         </linearGradient>
-        <filter id="ds"><feDropShadow dx="0" dy="4" stdDeviation="7" flood-color="rgba(0,0,0,.4)"/></filter>
-        <!-- Window glow -->
-        <radialGradient id="wg"><stop offset="0%" stop-color="rgba(255,210,80,.18)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
       </defs>
 
-      <!-- Ground plane -->
-      <rect x="0" y="268" width="700" height="22" fill="#062030"/>
-      <rect x="0" y="264" width="700" height="6" fill="url(#gA)" opacity=".28" rx="1"/>
+      <!-- Ground -->
+      <rect x="0" y="256" width="660" height="16" fill="#062030"/>
+      <rect x="0" y="252" width="660" height="5" fill="url(#gA)" opacity=".25" rx="1"/>
 
-      <!-- ===== FAR LEFT MINARET ===== -->
-      <rect x="52" y="118" width="22" height="150" fill="url(#mG)" rx="2"/>
-      <rect x="45" y="156" width="36" height="7" fill="url(#gA)" rx="2" opacity=".9"/>
-      <rect x="47" y="153" width="32" height="6" fill="url(#dG)" rx="2"/>
-      <ellipse cx="63" cy="118" rx="13" ry="5.5" fill="url(#dG)"/>
-      <path d="M50,118 Q63,90 76,118" fill="url(#dG)"/>
-      <ellipse cx="63" cy="89" rx="7.5" ry="4" fill="url(#dG)"/>
-      <path d="M55.5,89 Q63,70 70.5,89" fill="url(#dG)"/>
-      <line x1="63" y1="70" x2="63" y2="52" stroke="url(#gA)" stroke-width="2.5"/>
-      <polygon points="63,46 66.5,54 59.5,54" fill="url(#gA)"/>
-      <g transform="translate(63,43)">
-        <circle cx="-1.2" cy="0" r="5.5" fill="url(#gA)"/>
-        <circle cx="2" cy="-1.2" r="4.2" fill="#030d12"/>
+      <!-- === LEFT TALL MINARET === -->
+      <rect x="46" y="112" width="20" height="144" fill="url(#bG)" rx="1.5"/>
+      <rect x="40" y="150" width="32" height="6" fill="url(#gA)" rx="1.5" opacity=".8"/>
+      <ellipse cx="56" cy="112" rx="12" ry="5" fill="url(#dG)"/>
+      <path d="M44,112 Q56,86 68,112" fill="url(#dG)"/>
+      <ellipse cx="56" cy="85" rx="7" ry="3.5" fill="url(#dG)"/>
+      <path d="M49,85 Q56,68 63,85" fill="url(#dG)"/>
+      <line x1="56" y1="68" x2="56" y2="52" stroke="url(#gA)" stroke-width="2.5"/>
+      <polygon points="56,46 59.5,54 52.5,54" fill="url(#gA)"/>
+      <g transform="translate(56,43)"><circle cx="-1" cy="0" r="5" fill="url(#gA)"/><circle cx="1.8" cy="-1" r="3.8" fill="#030c10" opacity=".0"/><circle cx="1.8" cy="-1" r="3.8" fill="url(#dG)"/></g>
+
+      <!-- === RIGHT TALL MINARET === -->
+      <rect x="594" y="112" width="20" height="144" fill="url(#bG)" rx="1.5"/>
+      <rect x="588" y="150" width="32" height="6" fill="url(#gA)" rx="1.5" opacity=".8"/>
+      <ellipse cx="604" cy="112" rx="12" ry="5" fill="url(#dG)"/>
+      <path d="M592,112 Q604,86 616,112" fill="url(#dG)"/>
+      <ellipse cx="604" cy="85" rx="7" ry="3.5" fill="url(#dG)"/>
+      <path d="M597,85 Q604,68 611,85" fill="url(#dG)"/>
+      <line x1="604" y1="68" x2="604" y2="52" stroke="url(#gA)" stroke-width="2.5"/>
+      <polygon points="604,46 607.5,54 600.5,54" fill="url(#gA)"/>
+      <g transform="translate(604,43)"><circle cx="-1" cy="0" r="5" fill="url(#gA)"/><circle cx="1.8" cy="-1" r="3.8" fill="url(#dG)"/></g>
+
+      <!-- === INNER LEFT MINARET === -->
+      <rect x="144" y="154" width="15" height="102" fill="url(#bG)" rx="1.5"/>
+      <rect x="138" y="185" width="27" height="5" fill="url(#gA)" rx="1.5" opacity=".75"/>
+      <ellipse cx="151.5" cy="154" rx="9.5" ry="4" fill="url(#dG)"/>
+      <path d="M142,154 Q151.5,132 161,154" fill="url(#dG)"/>
+      <ellipse cx="151.5" cy="131" rx="5.5" ry="2.8" fill="url(#dG)"/>
+      <path d="M146,131 Q151.5,116 157,131" fill="url(#dG)"/>
+      <line x1="151.5" y1="116" x2="151.5" y2="103" stroke="url(#gA)" stroke-width="2"/>
+      <g transform="translate(151.5,100)"><circle cx="-1" cy="0" r="4" fill="url(#gA)"/><circle cx="1.5" cy="-1" r="3" fill="url(#dG)"/></g>
+
+      <!-- === INNER RIGHT MINARET === -->
+      <rect x="501" y="154" width="15" height="102" fill="url(#bG)" rx="1.5"/>
+      <rect x="495" y="185" width="27" height="5" fill="url(#gA)" rx="1.5" opacity=".75"/>
+      <ellipse cx="508.5" cy="154" rx="9.5" ry="4" fill="url(#dG)"/>
+      <path d="M499,154 Q508.5,132 518,154" fill="url(#dG)"/>
+      <ellipse cx="508.5" cy="131" rx="5.5" ry="2.8" fill="url(#dG)"/>
+      <path d="M503,131 Q508.5,116 514,131" fill="url(#dG)"/>
+      <line x1="508.5" y1="116" x2="508.5" y2="103" stroke="url(#gA)" stroke-width="2"/>
+      <g transform="translate(508.5,100)"><circle cx="-1" cy="0" r="4" fill="url(#gA)"/><circle cx="1.5" cy="-1" r="3" fill="url(#dG)"/></g>
+
+      <!-- === MAIN BUILDING === -->
+      <rect x="88" y="178" width="484" height="78" fill="url(#bG)"/>
+      <rect x="88" y="178" width="484" height="3.5" fill="url(#gA)" opacity=".6" rx="1"/>
+      <rect x="88" y="192" width="484" height="1.2" fill="url(#gA)" opacity=".25" rx="1"/>
+
+      <!-- Arcade arches -->
+      <g fill="none" stroke="rgba(212,175,55,.28)" stroke-width="1.1">
+        <path d="M108,256 L108,222 Q119,209 130,222 L130,256"/>
+        <path d="M148,256 L148,222 Q159,209 170,222 L170,256"/>
+        <path d="M188,256 L188,222 Q199,209 210,222 L210,256"/>
+        <path d="M228,256 L228,222 Q239,209 250,222 L250,256"/>
+        <path d="M268,256 L268,222 Q279,209 290,222 L290,256"/>
+        <path d="M308,256 L308,222 Q319,209 330,222 L330,256"/>
+        <path d="M350,256 L350,222 Q361,209 372,222 L372,256"/>
+        <path d="M390,256 L390,222 Q401,209 412,222 L412,256"/>
+        <path d="M430,256 L430,222 Q441,209 452,222 L452,256"/>
+        <path d="M470,256 L470,222 Q481,209 492,222 L492,256"/>
+        <path d="M510,256 L510,222 Q521,209 532,222 L532,256"/>
+        <path d="M550,256 L550,222 Q561,209 572,222 L572,256"/>
       </g>
 
-      <!-- ===== FAR RIGHT MINARET ===== -->
-      <rect x="626" y="118" width="22" height="150" fill="url(#mG)" rx="2"/>
-      <rect x="619" y="156" width="36" height="7" fill="url(#gA)" rx="2" opacity=".9"/>
-      <rect x="621" y="153" width="32" height="6" fill="url(#dG)" rx="2"/>
-      <ellipse cx="637" cy="118" rx="13" ry="5.5" fill="url(#dG)"/>
-      <path d="M624,118 Q637,90 650,118" fill="url(#dG)"/>
-      <ellipse cx="637" cy="89" rx="7.5" ry="4" fill="url(#dG)"/>
-      <path d="M629.5,89 Q637,70 644.5,89" fill="url(#dG)"/>
-      <line x1="637" y1="70" x2="637" y2="52" stroke="url(#gA)" stroke-width="2.5"/>
-      <polygon points="637,46 640.5,54 633.5,54" fill="url(#gA)"/>
-      <g transform="translate(637,43)">
-        <circle cx="-1.2" cy="0" r="5.5" fill="url(#gA)"/>
-        <circle cx="2" cy="-1.2" r="4.2" fill="#030d12"/>
-      </g>
+      <!-- === SIDE DOMES === -->
+      <ellipse cx="196" cy="178" rx="50" ry="17" fill="url(#dG)"/>
+      <path d="M146,178 Q196,116 246,178" fill="url(#dG)"/>
+      <ellipse cx="196" cy="115" rx="14" ry="5.5" fill="url(#dG)"/>
+      <path d="M182,115 Q196,93 210,115" fill="url(#dG)"/>
+      <line x1="196" y1="93" x2="196" y2="78" stroke="url(#gA)" stroke-width="2.2"/>
+      <g transform="translate(196,75)"><circle cx="-1" cy="0" r="5" fill="url(#gA)"/><circle cx="1.8" cy="-1.2" r="3.8" fill="url(#dG)"/></g>
 
-      <!-- ===== INNER LEFT MINARET ===== -->
-      <rect x="148" y="158" width="16" height="110" fill="url(#mG)" rx="1.5"/>
-      <rect x="142" y="192" width="28" height="5.5" fill="url(#gA)" rx="1.5" opacity=".85"/>
-      <ellipse cx="156" cy="158" rx="10" ry="4.5" fill="url(#dG)"/>
-      <path d="M146,158 Q156,134 166,158" fill="url(#dG)"/>
-      <ellipse cx="156" cy="133" rx="6" ry="3" fill="url(#dG)"/>
-      <path d="M150,133 Q156,116 162,133" fill="url(#dG)"/>
-      <line x1="156" y1="116" x2="156" y2="102" stroke="url(#gA)" stroke-width="2"/>
-      <g transform="translate(156,99)">
-        <circle cx="-1" cy="0" r="4.5" fill="url(#gA)"/>
-        <circle cx="1.8" cy="-1" r="3.4" fill="#030d12"/>
-      </g>
+      <ellipse cx="464" cy="178" rx="50" ry="17" fill="url(#dG)"/>
+      <path d="M414,178 Q464,116 514,178" fill="url(#dG)"/>
+      <ellipse cx="464" cy="115" rx="14" ry="5.5" fill="url(#dG)"/>
+      <path d="M450,115 Q464,93 478,115" fill="url(#dG)"/>
+      <line x1="464" y1="93" x2="464" y2="78" stroke="url(#gA)" stroke-width="2.2"/>
+      <g transform="translate(464,75)"><circle cx="-1" cy="0" r="5" fill="url(#gA)"/><circle cx="1.8" cy="-1.2" r="3.8" fill="url(#dG)"/></g>
 
-      <!-- ===== INNER RIGHT MINARET ===== -->
-      <rect x="536" y="158" width="16" height="110" fill="url(#mG)" rx="1.5"/>
-      <rect x="530" y="192" width="28" height="5.5" fill="url(#gA)" rx="1.5" opacity=".85"/>
-      <ellipse cx="544" cy="158" rx="10" ry="4.5" fill="url(#dG)"/>
-      <path d="M534,158 Q544,134 554,158" fill="url(#dG)"/>
-      <ellipse cx="544" cy="133" rx="6" ry="3" fill="url(#dG)"/>
-      <path d="M538,133 Q544,116 550,133" fill="url(#dG)"/>
-      <line x1="544" y1="116" x2="544" y2="102" stroke="url(#gA)" stroke-width="2"/>
-      <g transform="translate(544,99)">
-        <circle cx="-1" cy="0" r="4.5" fill="url(#gA)"/>
-        <circle cx="1.8" cy="-1" r="3.4" fill="#030d12"/>
-      </g>
-
-      <!-- ===== MAIN BUILDING ===== -->
-      <rect x="94" y="185" width="512" height="83" fill="url(#mG)" filter="url(#ds)"/>
-      <!-- Gold trims -->
-      <rect x="94" y="185" width="512" height="4" fill="url(#gA)" rx="1" opacity=".7"/>
-      <rect x="94" y="200" width="512" height="1.5" fill="url(#gA)" opacity=".3"/>
-
-      <!-- Arcade arches on base -->
-      <g fill="none" stroke="rgba(212,175,55,.32)" stroke-width="1.2">
-        <path d="M114,268 L114,228 Q126,213 138,228 L138,268"/>
-        <path d="M154,268 L154,228 Q166,213 178,228 L178,268"/>
-        <path d="M194,268 L194,228 Q206,213 218,228 L218,268"/>
-        <path d="M234,268 L234,228 Q246,213 258,228 L258,268"/>
-        <path d="M274,268 L274,228 Q286,213 298,228 L298,268"/>
-        <path d="M314,268 L314,228 Q326,213 338,228 L338,268"/>
-        <path d="M362,268 L362,228 Q374,213 386,228 L386,268"/>
-        <path d="M402,268 L402,228 Q414,213 426,228 L426,268"/>
-        <path d="M442,268 L442,228 Q454,213 466,228 L466,268"/>
-        <path d="M482,268 L482,228 Q494,213 506,228 L506,268"/>
-        <path d="M522,268 L522,228 Q534,213 546,228 L546,268"/>
-        <path d="M562,268 L562,228 Q574,213 586,228 L586,268"/>
-      </g>
-
-      <!-- ===== SIDE DOMES ===== -->
-      <!-- Left side dome -->
-      <ellipse cx="205" cy="185" rx="54" ry="19" fill="url(#dG)"/>
-      <path d="M151,185 Q205,120 259,185" fill="url(#dG)"/>
-      <ellipse cx="205" cy="118" rx="16" ry="6.5" fill="url(#dG)"/>
-      <path d="M189,118 Q205,94 221,118" fill="url(#dG)"/>
-      <!-- dome rib detail -->
-      <g stroke="rgba(212,175,55,.15)" stroke-width="1" fill="none">
-        <path d="M173,175 Q205,128 237,175"/>
-        <path d="M186,180 Q205,124 224,180"/>
-      </g>
-      <line x1="205" y1="94" x2="205" y2="78" stroke="url(#gA)" stroke-width="2.5"/>
-      <g transform="translate(205,75)">
-        <circle cx="-1" cy="0" r="5.5" fill="url(#gA)"/>
-        <circle cx="2" cy="-1.2" r="4.2" fill="#030d12"/>
-      </g>
-
-      <!-- Right side dome -->
-      <ellipse cx="495" cy="185" rx="54" ry="19" fill="url(#dG)"/>
-      <path d="M441,185 Q495,120 549,185" fill="url(#dG)"/>
-      <ellipse cx="495" cy="118" rx="16" ry="6.5" fill="url(#dG)"/>
-      <path d="M479,118 Q495,94 511,118" fill="url(#dG)"/>
-      <g stroke="rgba(212,175,55,.15)" stroke-width="1" fill="none">
-        <path d="M463,175 Q495,128 527,175"/>
-        <path d="M476,180 Q495,124 514,180"/>
-      </g>
-      <line x1="495" y1="94" x2="495" y2="78" stroke="url(#gA)" stroke-width="2.5"/>
-      <g transform="translate(495,75)">
-        <circle cx="-1" cy="0" r="5.5" fill="url(#gA)"/>
-        <circle cx="2" cy="-1.2" r="4.2" fill="#030d12"/>
-      </g>
-
-      <!-- ===== MAIN DOME ===== -->
-      <ellipse cx="350" cy="180" rx="92" ry="30" fill="url(#dG)"/>
-      <path d="M258,180 Q350,58 442,180" fill="url(#dG)" filter="url(#ds)"/>
+      <!-- === MAIN DOME === -->
+      <ellipse cx="330" cy="174" rx="86" ry="26" fill="url(#dG)"/>
+      <path d="M244,174 Q330,60 416,174" fill="url(#dG)"/>
       <!-- ribs -->
-      <g stroke="rgba(212,175,55,.18)" stroke-width="1" fill="none">
-        <path d="M292,163 Q350,75 408,163"/>
-        <path d="M308,172 Q350,68 392,172"/>
-        <path d="M328,178 Q350,63 372,178"/>
+      <g stroke="rgba(212,175,55,.15)" stroke-width="1" fill="none">
+        <path d="M278,158 Q330,74 382,158"/>
+        <path d="M295,167 Q330,68 365,167"/>
+        <path d="M314,173 Q330,64 346,173"/>
       </g>
-      <!-- sub dome -->
-      <ellipse cx="350" cy="57" rx="28" ry="10" fill="url(#dG)"/>
-      <path d="M322,57 Q350,26 378,57" fill="url(#dG)"/>
-      <!-- finial -->
-      <line x1="350" y1="26" x2="350" y2="5" stroke="url(#gA)" stroke-width="3.5"/>
-      <polygon points="350,0 354,9 346,9" fill="url(#gA)"/>
-      <!-- main crescent -->
-      <g transform="translate(350,0)">
-        <circle cx="-1.5" cy="0" r="8" fill="url(#gA)"/>
-        <circle cx="3" cy="-1.5" r="6.2" fill="#030d12"/>
-      </g>
+      <ellipse cx="330" cy="58" rx="26" ry="9" fill="url(#dG)"/>
+      <path d="M304,58 Q330,28 356,58" fill="url(#dG)"/>
+      <line x1="330" y1="28" x2="330" y2="8" stroke="url(#gA)" stroke-width="3.2"/>
+      <polygon points="330,2 334,10 326,10" fill="url(#gA)"/>
+      <g transform="translate(330,0)"><circle cx="-1.5" cy="0" r="7.5" fill="url(#gA)"/><circle cx="2.5" cy="-1.5" r="5.8" fill="url(#dG)"/></g>
 
-      <!-- ===== MAIN GATE ===== -->
-      <rect x="307" y="205" width="86" height="63" fill="#05192a" rx="3"/>
-      <!-- arch -->
-      <path d="M307,225 Q350,200 393,225" fill="url(#dG)"/>
-      <path d="M307,225 Q350,200 393,225" fill="none" stroke="url(#gA)" stroke-width="1.5" opacity=".65"/>
-      <!-- door panels -->
-      <rect x="313" y="225" width="32" height="43" fill="#030f18" rx="2"/>
-      <rect x="355" y="225" width="32" height="43" fill="#030f18" rx="2"/>
-      <!-- panel lines -->
-      <rect x="315" y="230" width="28" height="2" fill="rgba(212,175,55,.32)" rx="1"/>
-      <rect x="315" y="238" width="28" height="1.5" fill="rgba(212,175,55,.2)" rx="1"/>
-      <rect x="357" y="230" width="28" height="2" fill="rgba(212,175,55,.32)" rx="1"/>
-      <rect x="357" y="238" width="28" height="1.5" fill="rgba(212,175,55,.2)" rx="1"/>
-      <!-- handles -->
-      <circle cx="343" cy="248" r="3.2" fill="url(#gA)"/>
-      <circle cx="357" cy="248" r="3.2" fill="url(#gA)"/>
-      <!-- rosette above door -->
-      <circle cx="350" cy="210" r="9" fill="rgba(255,200,80,.06)" stroke="rgba(212,175,55,.45)" stroke-width="1"/>
-      <circle cx="350" cy="210" r="4.5" fill="rgba(255,200,80,.08)" stroke="rgba(212,175,55,.35)" stroke-width=".8"/>
+      <!-- === MAIN GATE === -->
+      <rect x="295" y="196" width="70" height="60" fill="#04141e" rx="3"/>
+      <path d="M295,214 Q330,192 365,214" fill="url(#dG)"/>
+      <path d="M295,214 Q330,192 365,214" fill="none" stroke="url(#gA)" stroke-width="1.3" opacity=".55"/>
+      <rect x="301" y="214" width="27" height="42" fill="#030c18" rx="2"/>
+      <rect x="332" y="214" width="27" height="42" fill="#030c18" rx="2"/>
+      <rect x="303" y="220" width="23" height="1.8" fill="rgba(212,175,55,.28)" rx="1"/>
+      <rect x="303" y="228" width="23" height="1.2" fill="rgba(212,175,55,.18)" rx="1"/>
+      <rect x="334" y="220" width="23" height="1.8" fill="rgba(212,175,55,.28)" rx="1"/>
+      <rect x="334" y="228" width="23" height="1.2" fill="rgba(212,175,55,.18)" rx="1"/>
+      <circle cx="327" cy="238" r="2.8" fill="url(#gA)"/>
+      <circle cx="333" cy="238" r="2.8" fill="url(#gA)"/>
+      <!-- rosette -->
+      <circle cx="330" cy="202" r="8" fill="rgba(255,200,80,.05)" stroke="rgba(212,175,55,.38)" stroke-width=".9"/>
 
       <!-- Side windows -->
-      <g>
-        <path d="M116,250 L116,228 Q126,219 136,228 L136,250 Z" fill="url(#wg)" stroke="rgba(212,175,55,.4)" stroke-width=".9"/>
-        <path d="M158,250 L158,228 Q168,219 178,228 L178,250 Z" fill="url(#wg)" stroke="rgba(212,175,55,.4)" stroke-width=".9"/>
-        <path d="M200,249 L200,228 Q210,220 220,228 L220,249 Z" fill="url(#wg)" stroke="rgba(212,175,55,.38)" stroke-width=".9"/>
-        <path d="M240,249 L240,228 Q250,220 260,228 L260,249 Z" fill="url(#wg)" stroke="rgba(212,175,55,.38)" stroke-width=".9"/>
-        <path d="M440,249 L440,228 Q450,220 460,228 L460,249 Z" fill="url(#wg)" stroke="rgba(212,175,55,.38)" stroke-width=".9"/>
-        <path d="M480,249 L480,228 Q490,220 500,228 L500,249 Z" fill="url(#wg)" stroke="rgba(212,175,55,.38)" stroke-width=".9"/>
-        <path d="M522,250 L522,228 Q532,219 542,228 L542,250 Z" fill="url(#wg)" stroke="rgba(212,175,55,.4)" stroke-width=".9"/>
-        <path d="M564,250 L564,228 Q574,219 584,228 L584,250 Z" fill="url(#wg)" stroke="rgba(212,175,55,.4)" stroke-width=".9"/>
+      <g fill="rgba(255,200,80,.06)" stroke="rgba(212,175,55,.35)" stroke-width=".9">
+        <path d="M110,248 L110,228 Q119,220 128,228 L128,248 Z"/>
+        <path d="M150,248 L150,228 Q159,220 168,228 L168,248 Z"/>
+        <path d="M192,247 L192,228 Q201,221 210,228 L210,247 Z"/>
+        <path d="M450,247 L450,228 Q459,221 468,228 L468,247 Z"/>
+        <path d="M492,248 L492,228 Q501,220 510,228 L510,248 Z"/>
+        <path d="M532,248 L532,228 Q541,220 550,228 L550,248 Z"/>
       </g>
-
-      <!-- Decorative band mid-building -->
-      <rect x="94" y="203" width="512" height="1.5" fill="url(#gA)" opacity=".35" rx="1"/>
     </svg>
   </div>
 
-</div><!-- /scene -->
-
-<!-- WISH CARD -->
-<div class="wcard">
-  <div class="wlabel">✦ Eid Blessings ✦</div>
-  <p id="wish">May the crescent moon bring you and your family boundless joy, deep peace, and radiant blessings this Eid. Wishing you a celebration filled with warmth, laughter, and love. Eid Mubarak!</p>
-  <div class="brow">
-    <button class="btn bg" onclick="newWish(this)">✨ New Wish</button>
-    <button class="btn bt" onclick="doFireworks(this)">🎆 Fireworks</button>
-    <button class="btn bt" onclick="doGoldRain(this)">✦ Gold Rain</button>
-    <button class="btn bo" onclick="doStars(this)">🌟 Star Burst</button>
-    <button class="btn bo" onclick="copyWish(this)">📋 Copy</button>
+  <!-- WISH CARD -->
+  <div class="wcard">
+    <div class="wlabel">✦ Eid Blessings ✦</div>
+    <p id="wish">May the crescent moon bring you and your family boundless joy, deep peace, and radiant blessings this Eid. Wishing you a celebration filled with warmth, laughter, and love. Eid Mubarak!</p>
+    <div class="brow">
+      <button class="btn bg" onclick="newWish()">✨ New Wish</button>
+      <button class="btn bo" onclick="copyWish()">📋 Copy Wish</button>
+    </div>
   </div>
-</div>
 
-<!-- MESSAGE SECTION -->
-<div class="msec">
-  <h3>✦ Send an Eid Greeting ✦</h3>
-  <!--
-    HOW TO RECEIVE MESSAGES IN YOUR EMAIL:
-    1. Go to https://formspree.io and sign up (free)
-    2. Click "New Form" — give it a name like "Eid Greetings"
-    3. Copy your form ID (looks like: xpzvqjkw)
-    4. Replace YOUR_FORM_ID below with it
-    Messages will be emailed to you and stored in your Formspree dashboard.
-  -->
-  <form class="mform" id="gform" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-    <input type="text"  name="name"    placeholder="Your name…"                   required autocomplete="off"/>
-    <textarea           name="message" placeholder="Write your Eid wish or message…" required></textarea>
-    <input type="email" name="email"   placeholder="Your email (optional, for a reply)"/>
-    <button type="submit" class="btn bg">Send Eid Greeting 🌙</button>
-    <p id="fstat"></p>
-    <p class="fnote">Your message will be sent with love and stored safely.<br/>Replace <strong>YOUR_FORM_ID</strong> with your Formspree ID to enable this.</p>
-  </form>
-</div>
+  <!-- MESSAGE SECTION -->
+  <div class="msec">
+    <h3>✦ Send an Eid Greeting ✦</h3>
+    <!--
+      TO RECEIVE MESSAGES:
+      1. Sign up free at https://formspree.io
+      2. Create a new form → copy your Form ID (e.g. xpzvqjkw)
+      3. Replace YOUR_FORM_ID below with it
+      Messages will be emailed to you + stored in your Formspree dashboard.
+    -->
+    <form class="mform" id="gform" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <input  type="text"  name="name"    placeholder="Your name…"                      required autocomplete="off"/>
+      <textarea            name="message" placeholder="Write your Eid wish or message…" required></textarea>
+      <input  type="email" name="email"   placeholder="Your email (optional)"/>
+      <button type="submit" class="btn bg">Send Greeting 🌙</button>
+      <p id="fstat"></p>
+      <p class="fnote">Messages are stored safely via Formspree.<br/>Replace <strong>YOUR_FORM_ID</strong> with your Formspree ID to enable.</p>
+    </form>
+  </div>
 
-<footer><span>✦</span> Eid Mubarak — May every day be filled with light <span>✦</span></footer>
-</div><!-- /page -->
+  <footer><span>✦</span> Eid Mubarak — May every day be filled with light <span>✦</span></footer>
+</div>
 
 <div id="toast"></div>
 
 <script>
-/* ======== CURSOR ======== */
-const cur=document.getElementById('cursor'),cdot=document.getElementById('cdot');
-let mx=0,my=0,cx=0,cy=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cdot.style.left=mx+'px';cdot.style.top=my+'px'});
-document.querySelectorAll('.btn,input,textarea').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cur.style.width='28px';cur.style.height='28px'});
-  el.addEventListener('mouseleave',()=>{cur.style.width='18px';cur.style.height='18px'});
-});
-(function lp(){cx+=(mx-cx)*.14;cy+=(my-cy)*.14;cur.style.left=cx+'px';cur.style.top=cy+'px';requestAnimationFrame(lp)})();
-
-/* ======== STARS SKY ======== */
+/* ======== STAR SKY ======== */
 (function(){
   const c=document.getElementById('sky'),x=c.getContext('2d');
-  function rs(){c.width=innerWidth;c.height=innerHeight}
   let st=[];
+  function rs(){c.width=innerWidth;c.height=innerHeight}
   function init(){
-    st=[];const n=Math.floor(c.width*c.height/3000);
+    st=[];
+    const n=Math.floor(c.width*c.height/4200);
     for(let i=0;i<n;i++) st.push({
-      x:Math.random()*c.width,y:Math.random()*c.height*.78,
-      r:Math.random()*1.4+.3,ph:Math.random()*Math.PI*2,
-      sp:Math.random()*.008+.003,dr:(Math.random()-.5)*.12
+      px:Math.random()*c.width, py:Math.random()*c.height*.75,
+      r:Math.random()*1.3+.25, ph:Math.random()*Math.PI*2,
+      sp:Math.random()*.007+.003
     });
   }
   let f=0;
   function draw(){
     x.clearRect(0,0,c.width,c.height);
     const g=x.createLinearGradient(0,0,0,c.height);
-    g.addColorStop(0,'#010a0f');g.addColorStop(.55,'#030d12');g.addColorStop(1,'#04161d');
-    x.fillStyle=g;x.fillRect(0,0,c.width,c.height);
+    g.addColorStop(0,'#010a0f'); g.addColorStop(.6,'#030c10'); g.addColorStop(1,'#041218');
+    x.fillStyle=g; x.fillRect(0,0,c.width,c.height);
     f++;
     st.forEach(s=>{
-      const a=.3+.7*Math.abs(Math.sin(s.ph+f*s.sp));
-      s.x+=s.dr*.018;if(s.x<0)s.x=c.width;if(s.x>c.width)s.x=0;
-      x.beginPath();x.arc(s.x,s.y,s.r,0,Math.PI*2);
-      x.fillStyle=`rgba(255,238,170,${a})`;x.fill();
-      if(s.r>1.1){x.beginPath();x.arc(s.x,s.y,s.r*2.8,0,Math.PI*2);x.fillStyle=`rgba(255,220,110,${a*.07})`;x.fill()}
+      const a=.25+.75*Math.abs(Math.sin(s.ph+f*s.sp));
+      x.beginPath(); x.arc(s.px,s.py,s.r,0,Math.PI*2);
+      x.fillStyle=`rgba(255,238,168,${a})`; x.fill();
     });
     requestAnimationFrame(draw);
   }
-  window.addEventListener('resize',()=>{rs();init()});rs();init();draw();
+  window.addEventListener('resize',()=>{rs();init()});
+  rs(); init(); draw();
 })();
 
-/* ======== FLOATING PARTICLES ======== */
+/* ======== AMBIENT LIGHT PARTICLES ======== */
 (function(){
-  const c=document.getElementById('pts'),x=c.getContext('2d');
+  const c=document.getElementById('ambient'),x=c.getContext('2d');
   function rs(){c.width=innerWidth;c.height=innerHeight}
-  window.addEventListener('resize',rs);rs();
-  const ps=[];const syms=['✦','·','⋆','∗','◇'];
-  for(let i=0;i<42;i++) ps.push({
-    x:Math.random()*c.width,y:Math.random()*c.height,
-    r:Math.random()*2+.8,vx:(Math.random()-.5)*.22,vy:-(Math.random()*.28+.08),
-    a:Math.random()*.45+.1,li:Math.random(),t:Math.floor(Math.random()*3)
+  window.addEventListener('resize',rs); rs();
+
+  // gentle drifting motes
+  const motes=[];
+  for(let i=0;i<28;i++) motes.push({
+    px:Math.random()*c.width, py:Math.random()*c.height,
+    r:Math.random()*1.6+.5,
+    vx:(Math.random()-.5)*.18, vy:-(Math.random()*.22+.05),
+    li:Math.random()*Math.PI*2, ls:Math.random()*.015+.005
   });
+
+  // occasional shimmer sparks that float up and fade
+  const sparks=[];
+  function addSpark(){
+    sparks.push({
+      px:Math.random()*c.width*0.9+c.width*0.05,
+      py:c.height*(0.3+Math.random()*0.65),
+      r:Math.random()*1.8+.6,
+      vy:-(Math.random()*.6+.25),
+      vx:(Math.random()-.5)*.3,
+      a:0, maxA:.55+Math.random()*.3,
+      phase:'in', life:0,
+      maxLife:60+Math.floor(Math.random()*80)
+    });
+  }
+  // seed a few
+  for(let i=0;i<8;i++) addSpark();
+
   function draw(){
     x.clearRect(0,0,c.width,c.height);
-    ps.forEach(p=>{
-      p.x+=p.vx;p.y+=p.vy;p.li+=.002;
-      if(p.y<-15){p.y=c.height+15;p.x=Math.random()*c.width}
-      const a=p.a*Math.abs(Math.sin(p.li*Math.PI));
-      x.globalAlpha=a;
-      if(p.t===0){x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);x.fillStyle='#FFD700';x.fill()}
-      else if(p.t===1){x.font=`${p.r*5}px serif`;x.fillStyle='#F5D76E';x.fillText(syms[Math.floor(p.r*2)%5],p.x,p.y)}
-      else{x.save();x.translate(p.x,p.y);x.rotate(p.li);x.strokeStyle='rgba(212,175,55,.5)';x.lineWidth=.7;x.strokeRect(-p.r,-p.r,p.r*2,p.r*2);x.restore()}
+
+    // motes
+    motes.forEach(m=>{
+      m.px+=m.vx; m.py+=m.vy; m.li+=m.ls;
+      if(m.py<-10){m.py=c.height+10;m.px=Math.random()*c.width}
+      const a=.12+.18*Math.abs(Math.sin(m.li));
+      x.beginPath(); x.arc(m.px,m.py,m.r,0,Math.PI*2);
+      x.fillStyle=`rgba(212,175,55,${a})`; x.fill();
     });
-    x.globalAlpha=1;requestAnimationFrame(draw);
+
+    // sparks
+    for(let i=sparks.length-1;i>=0;i--){
+      const s=sparks[i];
+      s.px+=s.vx; s.py+=s.vy; s.life++;
+      if(s.phase==='in'){s.a+=s.maxA/25; if(s.a>=s.maxA) s.phase='hold'}
+      else if(s.phase==='hold'){if(s.life>s.maxLife*0.55) s.phase='out'}
+      else{s.a-=s.maxA/30}
+      if(s.a<=0){sparks.splice(i,1); addSpark(); continue}
+      // draw as tiny 4-ray sparkle
+      x.save(); x.translate(s.px,s.py); x.globalAlpha=s.a;
+      x.strokeStyle='rgba(245,215,110,1)'; x.lineWidth=.9;
+      x.beginPath(); x.moveTo(-s.r*2.2,0); x.lineTo(s.r*2.2,0); x.stroke();
+      x.beginPath(); x.moveTo(0,-s.r*2.2); x.lineTo(0,s.r*2.2); x.stroke();
+      x.globalAlpha=s.a*.5;
+      x.beginPath(); x.moveTo(-s.r*1.4,-s.r*1.4); x.lineTo(s.r*1.4,s.r*1.4); x.stroke();
+      x.beginPath(); x.moveTo(s.r*1.4,-s.r*1.4); x.lineTo(-s.r*1.4,s.r*1.4); x.stroke();
+      // center dot
+      x.globalAlpha=s.a;
+      x.beginPath(); x.arc(0,0,s.r*.6,0,Math.PI*2);
+      x.fillStyle='rgba(255,240,150,1)'; x.fill();
+      x.restore();
+    }
+
+    requestAnimationFrame(draw);
   }
   draw();
 })();
-
-/* ======== FX ENGINE ======== */
-const FC=document.getElementById('fx'),FX=FC.getContext('2d');
-function rFX(){FC.width=innerWidth;FC.height=innerHeight}
-window.addEventListener('resize',rFX);rFX();
-let fps=[],fxOn=false;
-
-function starPath(ctx,x,y,r){
-  ctx.save();ctx.translate(x,y);ctx.beginPath();
-  for(let i=0;i<5;i++){
-    ctx.lineTo(Math.cos((18+72*i)*Math.PI/180)*r,-Math.sin((18+72*i)*Math.PI/180)*r);
-    ctx.lineTo(Math.cos((54+72*i)*Math.PI/180)*r*.42,-Math.sin((54+72*i)*Math.PI/180)*r*.42);
-  }
-  ctx.closePath();ctx.fillStyle=fps.length?'#fff':'#FFD700';ctx.fill();ctx.restore();
-}
-
-function runFX(){
-  if(!fxOn){requestAnimationFrame(runFX);return}
-  FX.fillStyle='rgba(0,0,0,.15)';FX.fillRect(0,0,FC.width,FC.height);
-  fps=fps.filter(p=>p.a>.01);
-  fps.forEach(p=>{
-    p.x+=p.vx;p.y+=p.vy;p.vy+=p.gr||.07;p.vx*=.985;p.a-=p.dc;
-    FX.globalAlpha=p.a;
-    if(p.sh==='c'){FX.beginPath();FX.arc(p.x,p.y,p.r,0,Math.PI*2);FX.fillStyle=p.cl;FX.fill()}
-    else if(p.sh==='s'){FX.save();FX.fillStyle=p.cl;starPath(FX,p.x,p.y,p.r);FX.restore()}
-    else{FX.font=`${p.r*5}px serif`;FX.fillStyle=p.cl;FX.fillText(p.em,p.x,p.y)}
-  });
-  FX.globalAlpha=1;
-  if(fps.length===0){FX.clearRect(0,0,FC.width,FC.height);fxOn=false}
-  requestAnimationFrame(runFX);
-}
-runFX();
-
-function burst(x,y,cols,n,shapes){
-  fxOn=true;
-  for(let i=0;i<n;i++){
-    const ang=Math.random()*Math.PI*2,spd=Math.random()*6+2;
-    fps.push({x,y,vx:Math.cos(ang)*spd,vy:Math.sin(ang)*spd,
-      a:1,r:Math.random()*3+1.5,cl:cols[Math.floor(Math.random()*cols.length)],
-      dc:Math.random()*.016+.007,sh:shapes[Math.floor(Math.random()*shapes.length)],
-      gr:.04+Math.random()*.06});
-  }
-}
-
-const FC_=['#FFD700','#FF6B6B','#4ECDC4','#FFE08A','#C9A84C','#FF9F43','#A8E6CF','#DDA0DD','#FFF'];
-const GC_=['#FFD700','#F5D76E','#FFF0A0','#D4AF37','#FFC200','#FFFACD','#FFEE88'];
-const SC_=['#FFE08A','#FFF5C0','#FFFDD0','#FFD700','#87CEEB','#C0E8FF','#E0F0FF'];
-
-function ripple(btn){
-  if(!btn)return;
-  const sp=document.createElement('span');
-  sp.style.cssText='position:absolute;border-radius:50%;background:rgba(255,255,255,.25);width:0;height:0;top:50%;left:50%;transform:translate(-50%,-50%);animation:rp .6s linear forwards;pointer-events:none';
-  if(!document.getElementById('rp-style')){
-    const st=document.createElement('style');st.id='rp-style';
-    st.textContent='@keyframes rp{to{width:220px;height:220px;opacity:0}}';
-    document.head.appendChild(st);
-  }
-  btn.appendChild(sp);setTimeout(()=>sp.remove(),700);
-}
-
-/* ======== EFFECT BUTTONS ======== */
-window.doFireworks=function(b){
-  ripple(b);FX.clearRect(0,0,FC.width,FC.height);fxOn=true;
-  let k=0;const iv=setInterval(()=>{
-    burst(FC.width*(.15+Math.random()*.7),FC.height*(.1+Math.random()*.45),FC_,75,['c','s']);
-    if(++k>=10)clearInterval(iv);
-  },200);
-  toast('Eid Mubarak! 🎆');
-};
-
-window.doGoldRain=function(b){
-  ripple(b);fxOn=true;
-  for(let i=0;i<130;i++){
-    setTimeout(()=>{
-      fps.push({x:Math.random()*FC.width,y:-12,
-        vx:(Math.random()-.5)*1.3,vy:Math.random()*2+1.5,
-        a:1,r:Math.random()*2.5+1,cl:GC_[Math.floor(Math.random()*GC_.length)],
-        dc:Math.random()*.006+.003,sh:Math.random()>.5?'c':'s',gr:.03});
-    },i*22);
-  }
-  toast('Golden blessings rain! ✦');
-};
-
-window.doStars=function(b){
-  ripple(b);fxOn=true;
-  const cx2=FC.width/2,cy2=FC.height*.4;
-  for(let ring=0;ring<5;ring++){
-    setTimeout(()=>{
-      const n=28+ring*14;
-      for(let i=0;i<n;i++){
-        const ang=(Math.PI*2/n)*i;const spd=(ring+1)*1.9;
-        fps.push({x:cx2,y:cy2,vx:Math.cos(ang)*spd,vy:Math.sin(ang)*spd,
-          a:1,r:Math.random()*3+1.5,cl:SC_[Math.floor(Math.random()*SC_.length)],
-          dc:.008+ring*.003,sh:'s',gr:.02});
-      }
-    },ring*100);
-  }
-  toast('Stars burst! 🌟');
-};
 
 /* ======== WISHES ======== */
 const WS=[
   "May the crescent moon bring you and your family boundless joy, deep peace, and radiant blessings this Eid. Wishing you a celebration filled with warmth, laughter, and love. Eid Mubarak!",
   "On this sacred occasion, may grace illuminate your path, fill your home with happiness, and bless every moment with infinite mercy. Eid Mubarak to you and yours!",
-  "As the stars witness a new crescent, may your life too be renewed with hope, gratitude, and purpose. May this Eid bring you closer to all that you cherish. Eid Mubarak!",
-  "May every prayer be answered, every fast rewarded, and every wish you hold dear come true. Have a truly blessed and joyful Eid! Eid Mubarak!",
+  "As the stars witness a new crescent, may your life be renewed with hope, gratitude, and purpose. May this Eid bring you closer to all that you cherish. Eid Mubarak!",
+  "May every prayer be answered, every fast rewarded, and every wish you hold dear come true. Have a truly blessed and joyful Eid Mubarak!",
   "Wishing you the sweetness of dates, the glow of the moon, and the joy of reunion. May peace and prosperity follow you all year long. Eid Mubarak!",
   "May the spirit of Eid fill your heart with light brighter than a thousand candles. Here's to laughter, feasts, and moments that become lifelong memories. Eid Mubarak!",
   "May the blessings of this holy day descend upon your family like gentle rain — nourishing every hope, every dream, and every act of love. Eid Mubarak!",
   "In the joy of togetherness and the warmth of giving, may your Eid be everything you have prayed for. Wishing you peace that surpasses all understanding. Eid Mubarak!",
 ];
 let wi=0;
-window.newWish=function(b){
-  ripple(b);
+function newWish(){
   const el=document.getElementById('wish');
   el.classList.add('fo');
-  setTimeout(()=>{wi=(wi+1)%WS.length;el.textContent=WS[wi];el.classList.remove('fo')},480);
-  fxOn=true;const r=el.getBoundingClientRect();
-  burst(r.left+r.width/2,r.top+r.height/2,GC_,28,['c','s']);
-};
-window.copyWish=function(b){
-  ripple(b);
+  setTimeout(()=>{wi=(wi+1)%WS.length; el.textContent=WS[wi]; el.classList.remove('fo')},460);
+}
+function copyWish(){
   const t=document.getElementById('wish').textContent;
   navigator.clipboard.writeText(t).then(()=>toast('Wish copied! 📋')).catch(()=>{
     const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('Wish copied! 📋');
   });
-};
+}
 
-/* ======== FORM (AJAX Formspree) ======== */
+/* ======== FORM ======== */
 document.getElementById('gform').addEventListener('submit',async e=>{
   e.preventDefault();
   const st=document.getElementById('fstat'),btn=e.target.querySelector('button[type=submit]');
-  btn.disabled=true;btn.textContent='Sending 🌙…';
+  btn.disabled=true; btn.textContent='Sending 🌙…';
   try{
     const r=await fetch(e.target.action,{method:'POST',headers:{Accept:'application/json'},body:new FormData(e.target)});
-    if(r.ok){st.textContent='Your greeting was sent! Eid Mubarak ✨';e.target.reset();doFireworks();}
+    if(r.ok){st.textContent='Your greeting was sent! Eid Mubarak ✨'; e.target.reset();}
     else st.textContent='Something went wrong — please try again.';
   }catch{st.textContent='Could not send. Check your connection.'}
-  btn.disabled=false;btn.textContent='Send Eid Greeting 🌙';
+  btn.disabled=false; btn.textContent='Send Greeting 🌙';
 });
 
 /* ======== TOAST ======== */
-function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
-
-/* Auto celebrate */
-setTimeout(()=>doFireworks(),1500);
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
 </script>
 </body>
 </html>
