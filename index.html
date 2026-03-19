@@ -7,9 +7,9 @@
 <style>
 body {
   margin: 0;
-  background: radial-gradient(circle at bottom, #020111, #000);
+  background: radial-gradient(circle at bottom, #000010, #000000);
   overflow: hidden;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   color: white;
   text-align: center;
 }
@@ -17,14 +17,15 @@ body {
 /* 🌌 Stars */
 .star {
   position: absolute;
-  width: 2px;
-  height: 2px;
+  width: 3px;
+  height: 3px;
   background: white;
+  opacity: 0.8;
   animation: twinkle 2s infinite alternate;
 }
 
 @keyframes twinkle {
-  from { opacity: 0.2; }
+  from { opacity: 0.3; }
   to { opacity: 1; }
 }
 
@@ -37,22 +38,28 @@ body {
   height: 120px;
   background: white;
   border-radius: 50%;
-  box-shadow: 0 0 60px white;
+  box-shadow: 0 0 80px white;
   transform: translateX(-50%);
+  animation: floatMoon 6s ease-in-out infinite alternate;
 }
 
 .moon::after {
   content: "";
   position: absolute;
   top: 0;
-  left: 30px;
+  left: 40px;
   width: 120px;
   height: 120px;
-  background: black;
+  background: #000;
   border-radius: 50%;
 }
 
-/* 🕌 Mosque silhouette */
+@keyframes floatMoon {
+  from { transform: translate(-50%, 0); }
+  to { transform: translate(-50%, 20px); }
+}
+
+/* 🕌 Ground fade */
 .mosque {
   position: absolute;
   bottom: 0;
@@ -71,7 +78,10 @@ body {
   transform: scale(0.5);
   animation: appear 3s ease forwards;
   animation-delay: 2s;
-  text-shadow: 0 0 20px #00c3ff;
+  text-shadow:
+    0 0 10px #00c3ff,
+    0 0 20px #00c3ff,
+    0 0 40px #00c3ff;
 }
 
 @keyframes appear {
@@ -121,9 +131,6 @@ body {
 <div class="mosque"></div>
 <h1 id="text">Eid Mubarak 🌙</h1>
 
-<!-- 🎵 optional sound -->
-<audio id="sound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
-
 <script>
 /* ⭐ Stars */
 for (let i = 0; i < 120; i++) {
@@ -144,28 +151,26 @@ setInterval(() => {
   setTimeout(() => s.remove(), 5000);
 }, 200);
 
-/* 🎆 Firework on click */
-document.addEventListener("click", (e) => {
-  document.getElementById("sound").play();
+/* 🎆 Auto Fireworks */
+setInterval(() => {
+  let x = Math.random() * window.innerWidth;
+  let y = Math.random() * window.innerHeight / 2;
 
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 25; i++) {
     let f = document.createElement("div");
     f.className = "firework";
 
-    let x = (Math.random() - 0.5) * 300 + "px";
-    let y = (Math.random() - 0.5) * 300 + "px";
-
-    f.style.left = e.clientX + "px";
-    f.style.top = e.clientY + "px";
-    f.style.setProperty('--x', x);
-    f.style.setProperty('--y', y);
+    f.style.left = x + "px";
+    f.style.top = y + "px";
+    f.style.setProperty('--x', (Math.random() - 0.5) * 250 + "px");
+    f.style.setProperty('--y', (Math.random() - 0.5) * 250 + "px");
 
     document.body.appendChild(f);
     setTimeout(() => f.remove(), 1000);
   }
-});
+}, 2000);
 
-/* 🔤 Name from URL */
+/* 🔤 Personalized Name */
 const params = new URLSearchParams(window.location.search);
 const name = params.get("name");
 
