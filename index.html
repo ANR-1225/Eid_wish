@@ -9,132 +9,88 @@ body {
   margin: 0;
   overflow: hidden;
   font-family: 'Segoe UI', sans-serif;
-  background: radial-gradient(circle at center, #020111 0%, #000000 80%);
+  background: linear-gradient(to top, #000000, #020617);
   color: white;
-  text-align: center;
 }
 
-/* 🌌 Stars */
+/* 🌌 Soft stars */
 .star {
   position: absolute;
   width: 2px;
   height: 2px;
-  background: white;
-  opacity: 0.7;
-  animation: twinkle 3s infinite alternate;
+  background: rgba(255,255,255,0.6);
+  border-radius: 50%;
 }
 
-@keyframes twinkle {
-  from { opacity: 0.2; }
-  to { opacity: 1; }
-}
-
-/* 🌠 Shooting star */
-.shooting {
-  position: absolute;
-  width: 2px;
-  height: 100px;
-  background: linear-gradient(white, transparent);
-  transform: rotate(45deg);
-  animation: shoot 1.2s linear forwards;
-}
-
-@keyframes shoot {
-  to {
-    transform: translate(400px, 400px) rotate(45deg);
-    opacity: 0;
-  }
-}
-
-/* 🌙 Realistic Moon */
+/* 🌙 Crescent */
 .moon {
   position: absolute;
-  top: 12%;
+  top: 18%;
   left: 50%;
-  width: 140px;
-  height: 140px;
-  background: radial-gradient(circle, #fff, #ddd);
+  width: 110px;
+  height: 110px;
+  background: #f5f3ce;
   border-radius: 50%;
-  box-shadow: 0 0 120px rgba(255,255,255,0.9);
+  box-shadow: 0 0 40px rgba(255, 248, 180, 0.6);
   transform: translateX(-50%);
-  animation: floatMoon 6s ease-in-out infinite alternate;
 }
 
 .moon::after {
   content: "";
   position: absolute;
   top: 0;
-  left: 50px;
-  width: 140px;
-  height: 140px;
-  background: #000;
+  left: 35px;
+  width: 110px;
+  height: 110px;
+  background: #020617;
   border-radius: 50%;
 }
 
-@keyframes floatMoon {
-  from { transform: translate(-50%, 0); }
-  to { transform: translate(-50%, 30px); }
-}
-
-/* 🕌 Layered mosque */
-.layer1 {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 180px;
-  background: rgba(0,0,0,0.8);
-}
-.layer2 {
+/* 🕌 Minimal skyline */
+.skyline {
   position: absolute;
   bottom: 0;
   width: 100%;
   height: 120px;
-  background: black;
+  background: linear-gradient(to top, #000, transparent);
 }
 
-/* ✍️ Typing text */
+/* ✨ Center text */
 #text {
   position: absolute;
-  top: 55%;
+  top: 52%;
   width: 100%;
-  font-size: 3em;
-  color: gold;
-  text-shadow:
-    0 0 10px gold,
-    0 0 30px orange,
-    0 0 60px gold;
+  text-align: center;
+  font-size: 2.8em;
+  letter-spacing: 2px;
+  color: #facc15;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeIn 2s ease forwards;
+  animation-delay: 1s;
 }
 
-/* 💫 Glow particles */
-.particle {
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 💫 floating dots */
+.dot {
   position: absolute;
-  width: 6px;
-  height: 6px;
-  background: gold;
+  width: 3px;
+  height: 3px;
+  background: #facc15;
   border-radius: 50%;
-  opacity: 0.7;
-  animation: floatUp 8s linear infinite;
+  opacity: 0.5;
+  animation: floatUp 6s linear infinite;
 }
 
 @keyframes floatUp {
-  from { transform: translateY(0); }
-  to { transform: translateY(-800px); opacity: 0; }
-}
-
-/* 🎆 Firework */
-.firework {
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  animation: explode 1s ease-out forwards;
-}
-
-@keyframes explode {
-  to {
-    transform: translate(var(--x), var(--y));
-    opacity: 0;
-  }
+  from { transform: translateY(0); opacity: 0.6; }
+  to { transform: translateY(-600px); opacity: 0; }
 }
 </style>
 </head>
@@ -142,16 +98,13 @@ body {
 <body>
 
 <div class="moon"></div>
-<div class="layer1"></div>
-<div class="layer2"></div>
+<div class="skyline"></div>
 
-<h1 id="text"></h1>
-
-<audio id="bgm" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" loop></audio>
+<h1 id="text">Eid Mubarak 🌙</h1>
 
 <script>
-/* ⭐ Stars */
-for (let i = 0; i < 200; i++) {
+/* 🌌 stars */
+for (let i = 0; i < 100; i++) {
   let s = document.createElement("div");
   s.className = "star";
   s.style.top = Math.random() * window.innerHeight + "px";
@@ -159,65 +112,24 @@ for (let i = 0; i < 200; i++) {
   document.body.appendChild(s);
 }
 
-/* 🌠 Shooting stars */
+/* 💫 floating particles */
 setInterval(() => {
-  let s = document.createElement("div");
-  s.className = "shooting";
-  s.style.top = Math.random() * 200 + "px";
-  s.style.left = Math.random() * window.innerWidth + "px";
-  document.body.appendChild(s);
-  setTimeout(() => s.remove(), 1200);
-}, 2500);
+  let d = document.createElement("div");
+  d.className = "dot";
+  d.style.left = Math.random() * window.innerWidth + "px";
+  d.style.top = window.innerHeight + "px";
+  document.body.appendChild(d);
+  setTimeout(() => d.remove(), 6000);
+}, 300);
 
-/* 💫 Glow particles */
-setInterval(() => {
-  let p = document.createElement("div");
-  p.className = "particle";
-  p.style.left = Math.random() * window.innerWidth + "px";
-  p.style.top = window.innerHeight + "px";
-  document.body.appendChild(p);
-  setTimeout(() => p.remove(), 8000);
-}, 150);
-
-/* 🎆 Color fireworks */
-setInterval(() => {
-  let x = Math.random() * window.innerWidth;
-  let y = Math.random() * window.innerHeight / 2;
-
-  for (let i = 0; i < 40; i++) {
-    let f = document.createElement("div");
-    f.className = "firework";
-    f.style.background = `hsl(${Math.random()*360},100%,60%)`;
-
-    f.style.left = x + "px";
-    f.style.top = y + "px";
-    f.style.setProperty('--x', (Math.random()-0.5)*400+"px");
-    f.style.setProperty('--y', (Math.random()-0.5)*400+"px");
-
-    document.body.appendChild(f);
-    setTimeout(()=>f.remove(),1000);
-  }
-},2000);
-
-/* ✍️ Typing effect */
+/* 🔤 personalized */
 const params = new URLSearchParams(window.location.search);
-const name = params.get("name") || "";
-const message = `Eid Mubarak ${name} 🌙`;
+const name = params.get("name");
 
-let i = 0;
-function type() {
-  if (i < message.length) {
-    document.getElementById("text").innerHTML += message.charAt(i);
-    i++;
-    setTimeout(type, 80);
-  }
+if (name) {
+  document.getElementById("text").innerText =
+    `Eid Mubarak, ${name}`;
 }
-setTimeout(type, 1500);
-
-/* 🎵 Play music on first click */
-document.addEventListener("click", () => {
-  document.getElementById("bgm").play();
-}, { once: true });
 </script>
 
 </body>
